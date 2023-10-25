@@ -1,5 +1,7 @@
 PostgreSQL Notes:
 -----------------------------------------------------
+*https://www.freecodecamp.org/learn/relational-database/
+
 Docker'da bulunan sanal makineye bağlanmak için:
 
 	psql --username=freecodecamp --dbname=postgres
