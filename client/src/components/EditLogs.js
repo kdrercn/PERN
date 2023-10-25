@@ -9,12 +9,20 @@ const EditLogs = ({ log }) => {
     const [year, setYear] = useState(log.year)
     const [district, setDistrict] = useState(log.district)
 
+    const [selected, setSelected] = useState('');
+
+    const handleChange = event => {
+        console.log('Label 👉️', event.target.selectedOptions[0].label);
+        console.log(event.target.value);
+        setSelected(event.target.value);
+      };
+
     //edit
 
     const updateDistrict = async(e) => {
         e.preventDefault();
         try {
-            const body = { district };
+            const body = { local_authority, latitude, longitude, year, district };
             const response = await fetch(`http://localhost:5000/logs/${log.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -58,7 +66,7 @@ const EditLogs = ({ log }) => {
 
             <div className="modal-body">
                 <label htmlFor="exampleFormControlSelect1">Example select</label>
-                    <select className="form-control" id="exampleFormControlSelect1" >
+                    <select className="form-control" id="exampleFormControlSelect1" value={selected} onChange={handleChange} >
                         <option value="local_authority">Local Authority</option>
                         <option value="latitude">Latitude</option>
                         <option value="longitude">Longitude</option>

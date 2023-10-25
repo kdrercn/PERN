@@ -20,4 +20,6 @@ SELECT * FROM accidents WHERE longitude=0 and district='City of London';
 
 SELECT * FROM accidents WHERE district='İstanbul';
 
-SELECT * FROM accidents WHERE id > 1469610;
+SELECT * FROM accidents WHERE id > 1469609;
+
+DELETE FROM accidents;
