@@ -43,9 +43,6 @@ const ListLogs = () => {
             setButtonText("Hide Accidents");
           }
     };
-//     const changeButtonText = () => {
-        
-//   };
       
 
     useEffect(() => {
@@ -60,8 +57,6 @@ const ListLogs = () => {
             onClick={handleClick} >
                 {buttonText}
             </button>
-
-        {/* 👇️ show elements on click */}
         {isShown && (
         <div>
             <table className="table mt-5 text-center">
