@@ -33,13 +33,32 @@ const ListLogs = () => {
             console.error(err.message);            
         }
     }
+    const [isShown, setIsShown] = useState(true);
+    const handleClick = event => {
+        // 👇️ toggle shown state
+        setIsShown(current => !current);
+    
+        // 👇️ or simply set it to true
+        // setIsShown(true);
+      };
+    
 
     useEffect(() => {
         getLogs();
     }, [])
     
     return <Fragment>
-        <table className="table mt-5 text-center">
+        <div className="text-center">
+            <button 
+            className="btn btn-info mt-5 text-center"
+            onClick={handleClick}>
+                Show Accidents
+            </button>
+
+        {/* 👇️ show elements on click */}
+        {isShown && (
+        <div>
+            <table className="table mt-5 text-center">
             <thead>
             <tr>
                 <th>Local Authority</th>
@@ -71,6 +90,10 @@ const ListLogs = () => {
             ))}
             </tbody>
         </table>
+        </div>
+        )}
+        
+        </div>
     </Fragment>;
 };
 

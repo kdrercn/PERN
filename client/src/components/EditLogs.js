@@ -1,104 +1,95 @@
 import React, { Fragment, useState } from "react";
 
-
-
 const EditLogs = ({ log }) => {
-    const [local_authority, setLocalAuthority] = useState(log.local_authority)
-    const [latitude, setLatitude] = useState(log.latitude)
-    const [longitude, setLongitude] = useState(log.longitude)
-    const [year, setYear] = useState(log.year)
-    const [district, setDistrict] = useState(log.district)
+  const [selectedOption, setSelectedOption] = useState("local_authority");
+  const [inputValue, setInputValue] = useState("");
 
-    const [selected, setSelected] = useState('');
-
-    const handleChange = event => {
-        console.log('Label 👉️', event.target.selectedOptions[0].label);
-        console.log(event.target.value);
-        setSelected(event.target.value);
-      };
-
-    //edit
-
-    const updateDistrict = async(e) => {
-        e.preventDefault();
-        try {
-            const body = { local_authority, latitude, longitude, year, district };
-            const response = await fetch(`http://localhost:5000/logs/${log.id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body)
-            })
-
-            window.location = "/";
-        } catch (err) {
-            console.error(err.message);
-        }
+  const updateLog = async (e) => {
+    e.preventDefault();
+    try {
+      const updatedLog = { ...log, [selectedOption]: inputValue };
+      const response = await fetch(`http://localhost:5000/logs/${log.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedLog),
+      });
+  
+      window.location = "/";
+    } catch (err) {
+      console.error(err.message);
     }
+  };
 
-
-    return (
+  return (
     <Fragment>
-        <button 
-            type="button" 
-            className="btn btn-warning" 
-            data-toggle="modal" 
-            data-target={`#id${log.id}`}
-            >
-            Edit
-        </button>
+      <button
+        type="button"
+        className="btn btn-warning"
+        data-toggle="modal"
+        data-target={`#id${log.id}`}
+      >
+        Edit
+      </button>
 
-        <div 
-            className="modal" 
-            id={`id${log.id}`}
-            onClick={() => setDistrict(log.district)}
-        >
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h4 className="modal-title">Edit Log</h4>
-                        <button type="button" 
-                                className="close" 
-                                data-dismiss="modal" 
-                                onClick={() => setDistrict(log.district)}>
-                                    &times;
-                        </button>
-                    </div>
+      <div className="modal" id={`id${log.id}`}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h4 className="modal-title">Edit Log</h4>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                
+              >
+                &times;
+              </button>
+            </div>
 
             <div className="modal-body">
-                <label htmlFor="exampleFormControlSelect1">Example select</label>
-                    <select className="form-control" id="exampleFormControlSelect1" value={selected} onChange={handleChange} >
-                        <option value="local_authority">Local Authority</option>
-                        <option value="latitude">Latitude</option>
-                        <option value="longitude">Longitude</option>
-                        <option value="year">Year</option>
-                        <option value="district">District</option>
-                    </select>
-                <input type="text" className="form-control mt-2" value={district} onChange={e => setDistrict(e.target.value)}></input>
+              <label htmlFor="exampleFormControlSelect1">Select an option:</label>
+              <select
+                className="form-control"
+                id="exampleFormControlSelect1"
+                onChange={(e) => setSelectedOption(e.target.value)}
+                value={selectedOption}
+              >
+                <option value="local_authority">Local Authority</option>
+                <option value="latitude">Latitude</option>
+                <option value="longitude">Longitude</option>
+                <option value="year">Year</option>
+                <option value="district">District</option>
+              </select>
+              <input
+                type="text"
+                className="form-control mt-2"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
             </div>
 
             <div className="modal-footer">
-                <button type="button" 
-                className="btn btn-warning" 
+              <button
+                type="button"
+                className="btn btn-warning"
                 data-dismiss="modal"
-                onClick={e => updateDistrict(e)}
-                >
-                    Edit
-                </button>
-                <button 
-                    type="button" 
-                    className="btn btn-danger" 
-                    data-dismiss="modal"
-                    onClick={() => setDistrict(log.district)}
-                >
-                    Close
-                </button>
+                onClick={updateLog}
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
             </div>
-
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </Fragment>
-    )
+  );
 };
 
 export default EditLogs;
