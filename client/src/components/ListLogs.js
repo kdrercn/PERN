@@ -34,25 +34,31 @@ const ListLogs = () => {
         }
     }
     const [isShown, setIsShown] = useState(true);
+    const [buttonText, setButtonText] = useState("Hide Accidents");
     const handleClick = event => {
-        // 👇️ toggle shown state
         setIsShown(current => !current);
-    
-        // 👇️ or simply set it to true
-        // setIsShown(true);
-      };
-    
+        if (buttonText === "Hide Accidents") {
+            setButtonText("Show Accidents");
+          } else {
+            setButtonText("Hide Accidents");
+          }
+    };
+//     const changeButtonText = () => {
+        
+//   };
+      
 
     useEffect(() => {
         getLogs();
     }, [])
     
     return <Fragment>
+        
         <div className="text-center">
             <button 
             className="btn btn-info mt-5 text-center"
-            onClick={handleClick}>
-                Show Accidents
+            onClick={handleClick} >
+                {buttonText}
             </button>
 
         {/* 👇️ show elements on click */}
