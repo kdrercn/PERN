@@ -30,9 +30,28 @@ const InputLogs = () => {
         }
     }
 
+    const [isShown, setIsShown] = useState(true);
+    const [buttonText, setButtonText] = useState("Hide Add Accident");
+    const handleClick = event => {
+        setIsShown(current => !current);
+        if (buttonText === "Hide Add Accident") {
+            setButtonText("Show Add Accident");
+          } else {
+            setButtonText("Hide Add Accident");
+          }
+    };
+
     return (
+        
         <Fragment>
             <h1 className="text-center mt-5">UK Accidents</h1>
+            <div className="text-center">
+            <button 
+                className="btn btn-info mt-5 text-center"
+                onClick={handleClick} >
+                    {buttonText}
+            </button>
+            {isShown && (
             <form className="text-center mt-5 " onSubmit={onSubmitForm}>
                 <input 
                     type="text" required
@@ -84,8 +103,12 @@ const InputLogs = () => {
                     <button className="btn btn-success mt-3">Add Accident</button>
                 </div>
             </form>
+            )}
+        
+            </div>
         </Fragment>
-    )
+    
+);
 }
 
 export default InputLogs;

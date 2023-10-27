@@ -7,62 +7,25 @@ function OpenStreetMap() {
 
     const [logs, setLogs] = useState([]);
 
-    const getLogs = async () => {
-      try {
-          const response = await fetch("http://localhost:5000/logs")
-          const jsonData = await response.json();
-          
-          setLogs(jsonData);
-          console.log(logs)
-          if (jsonData.length > 0) {
-            // Access properties for the first object in the array
-            console.log(jsonData[0].longitude, jsonData[0].latitude, jsonData[0].id);
-          }
-      } catch (err) {
-          console.error(err.message);            
-      }
-  }
     useEffect(() => {
-      getLogs();
+      fetch("http://localhost:5000/logs")
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        const elements = [];
+        for (let index = 0; index < data.length; index++) {
+          
+          elements[index]= {lat:data[index].latitude, lng:data[index].longitude, title:data[index].id};
+          
+        }
+        setLogs(elements);
+      });
     }, [])
 
-    const center = [52.22977, -0.19117];
+    const center = [54.7023545, -3.2765753]; 
+    const zoom = 5;         
 
-    const points = [
-      
-        {
-          lat: 51.489096,
-          lng: -0.19117,
-          title: 'point 1'
-        },
-        {
-          lat: 53.803634,
-          lng: -1.532749,
-          title: 'point 2'
-        },
-        {
-          lat: 50.455596,
-          lng: -4.756545,
-          title: 'point 3'
-        },
-        {
-          lat: 52.217726,
-          lng: -0.897892,
-          title: 'point 4'
-        },
-        {
-          lat: 52.217726,
-          lng: -2.239895,
-          title: 'point 5'
-        },
-        {
-          lat: 51.489096,
-          lng: -0.19117,
-          title: 'point 6'
-        }
-      ];
-      
-      
     const MyMarkers = ({ data }) => {
         return data.map(({ lat, lng, title }, index) => (
           <CircleMarker
@@ -76,16 +39,37 @@ function OpenStreetMap() {
         ));
       }
 
+    const [isShown, setIsShown] = useState(true);
+    const [buttonText, setButtonText] = useState("Hide Map");
+    const handleClick = event => {
+        setIsShown(current => !current);
+        if (buttonText === "Hide Map") {
+            setButtonText("Show Map");
+          } else {
+            setButtonText("Hide Map");
+          }
+    };
+
     return (
-        <MapContainer center={center} zoom={5} scrollWheelZoom={true} className="mt-5">
-            <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <MarkerClusterGroup chunkedLoading>
-              <MyMarkers data={points} />
-            </MarkerClusterGroup>
-        </MapContainer>
+      <div className="text-center">
+            <button 
+            className="btn btn-info mt-5 mb-5 text-center"
+            onClick={handleClick} >
+                {buttonText}
+            </button>
+        {isShown && (
+          <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} className="mb-5">
+              <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <MarkerClusterGroup chunkedLoading>
+                <MyMarkers data={logs} />
+              </MarkerClusterGroup>
+          </MapContainer>
+          )}
+        
+          </div>
   );
 }
 

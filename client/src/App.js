@@ -10,7 +10,9 @@ function App() {
     <Fragment>
       <div className="container">
         <InputLogs />
+        <hr className="bold-hr"/>
         <ListLogs />
+        <hr className="bold-hr"/>
         <OpenStreetMap />
       </div>
     </Fragment>

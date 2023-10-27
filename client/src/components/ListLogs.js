@@ -19,6 +19,7 @@ const ListLogs = () => {
         } catch (err) {
             console.error(err.message)            
         }
+        window.location = "/";
     }
 
     const getLogs = async () => {
@@ -53,13 +54,13 @@ const ListLogs = () => {
         
         <div className="text-center">
             <button 
-            className="btn btn-info mt-5 text-center"
+            className="btn btn-info mt-5 mb-5 text-center"
             onClick={handleClick} >
                 {buttonText}
             </button>
         {isShown && (
         <div>
-            <table className="table mt-5 text-center">
+            <table className="table text-center">
             <thead>
             <tr>
                 <th>Local Authority</th>
