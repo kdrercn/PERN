@@ -47,7 +47,7 @@ const EditLogs = ({ log }) => {
             </div>
 
             <div className="modal-body">
-              <label htmlFor="exampleFormControlSelect1">Select an option:</label>
+              <label htmlFor="exampleFormControlSelect1">Accident ID : {log.id}</label>
               <select
                 className="form-control"
                 id="exampleFormControlSelect1"
