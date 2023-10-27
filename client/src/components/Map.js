@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Popup, CircleMarker } from "react-leaflet";
-import MarkerClusterGroup from 'react-leaflet-cluster'
+import MarkerClusterGroup from "react-leaflet-cluster"
 
 
 function Map() {
@@ -49,7 +49,9 @@ function Map() {
             setButtonText("Hide Map");
           }
     };
-
+    if (!logs.length) {
+      return <p className="text-center">Loading...</p>;
+    }
     return (
       <div className="text-center">
             <button 
