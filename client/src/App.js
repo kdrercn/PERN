@@ -3,7 +3,7 @@ import "./App.css";
 
 import InputLogs from "./components/InputLogs";
 import ListLogs from "./components/ListLogs";
-import OpenStreetMap from "./components/OpenStreetMap";
+import OpenStreetMap from "./components/Map";
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
         <ListLogs />
         <hr className="bold-hr"/>
         <OpenStreetMap />
+        <hr className="bold-hr"/>
       </div>
     </Fragment>
   );

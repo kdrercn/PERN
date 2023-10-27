@@ -30,14 +30,14 @@ const InputLogs = () => {
         }
     }
 
-    const [isShown, setIsShown] = useState(true);
-    const [buttonText, setButtonText] = useState("Hide Add Accident");
+    const [isShown, setIsShown] = useState(false);
+    const [buttonText, setButtonText] = useState("Show Add Accident");
     const handleClick = event => {
         setIsShown(current => !current);
-        if (buttonText === "Hide Add Accident") {
-            setButtonText("Show Add Accident");
-          } else {
+        if (buttonText === "Show Add Accident") {
             setButtonText("Hide Add Accident");
+          } else {
+            setButtonText("Show Add Accident");
           }
     };
 
@@ -45,9 +45,10 @@ const InputLogs = () => {
         
         <Fragment>
             <h1 className="text-center mt-5">UK Accidents</h1>
+            <hr className="bold-hr"/>
             <div className="text-center">
             <button 
-                className="btn btn-info mt-5 text-center"
+                className="btn btn-info mb-3 mt-3 text-center"
                 onClick={handleClick} >
                     {buttonText}
             </button>

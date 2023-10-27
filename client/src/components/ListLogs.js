@@ -6,6 +6,9 @@ const ListLogs = () => {
 
 
     const [logs, setLogs] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [logsPerPage] = useState(5); // Number of logs to display per page
+  
 
     //delete
 
@@ -34,14 +37,14 @@ const ListLogs = () => {
             console.error(err.message);            
         }
     }
-    const [isShown, setIsShown] = useState(true);
-    const [buttonText, setButtonText] = useState("Hide Accidents");
+    const [isShown, setIsShown] = useState(false);
+    const [buttonText, setButtonText] = useState("Show Accidents");
     const handleClick = event => {
         setIsShown(current => !current);
-        if (buttonText === "Hide Accidents") {
-            setButtonText("Show Accidents");
-          } else {
+        if (buttonText === "Show Accidents") {
             setButtonText("Hide Accidents");
+          } else {
+            setButtonText("Show Accidents");
           }
     };
       
@@ -50,53 +53,78 @@ const ListLogs = () => {
         getLogs();
     }, [])
     
-    return <Fragment>
-        
+    const indexOfLastLog = currentPage * logsPerPage;
+    const indexOfFirstLog = indexOfLastLog - logsPerPage;
+    const currentLogs = logs.slice(indexOfFirstLog, indexOfLastLog);
+  
+    const totalLogs = logs.length;
+    const pageNumbers = [];
+  
+    for (let i = 1; i <= Math.ceil(totalLogs / logsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+    
+    // Function to change page
+    const paginate = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
+  
+    return (
+      <Fragment>
         <div className="text-center">
-            <button 
-            className="btn btn-info mt-5 mb-5 text-center"
-            onClick={handleClick} >
-                {buttonText}
-            </button>
-        {isShown && (
-        <div>
-            <table className="table text-center">
-            <thead>
-            <tr>
-                <th>Local Authority</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Year</th>
-                <th>District</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            </thead>
-            <tbody>
-            {logs.map(log => (
-                <tr key={log.id}>
-                    <td>{log.local_authority}</td>
-                    <td>{log.latitude}</td>
-                    <td>{log.longitude}</td>
-                    <td>{log.year}</td>
-                    <td>{log.district}</td>
-                    <td>
-                        <EditLogs log = {log} />
-                    </td>
-                    <td>
+          <button className="btn btn-info mt-3 mb-3 text-center" onClick={handleClick}>
+            {buttonText}
+          </button>
+          {isShown && (
+            <div>
+              <table className="table text-center">
+                <thead>
+                  <tr>
+                    <th>Local Authority</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Year</th>
+                    <th>District</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentLogs.map((log) => (
+                    <tr key={log.id}>
+                      <td>{log.local_authority}</td>
+                      <td>{log.latitude}</td>
+                      <td>{log.longitude}</td>
+                      <td>{log.year}</td>
+                      <td>{log.district}</td>
+                      <td>
+                        <EditLogs log={log} />
+                      </td>
+                      <td>
                         <button className="btn btn-danger" onClick={() => deleteLog(log.id)}>
-                            Delete
+                          Delete
                         </button>
-                    </td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
-        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="pagination-container">
+              <ul className="pagination">
+                {pageNumbers.map((number) => (
+                  <li key={number} className="page-item">
+                    <button onClick={() => paginate(number)} className="page-link">
+                      {number}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         )}
-        
-        </div>
-    </Fragment>;
+      </div>
+    </Fragment>
+  );
 };
 
 export default ListLogs;

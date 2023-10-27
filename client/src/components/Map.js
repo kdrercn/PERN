@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Popup, CircleMarker } from "react-leaflet";
 import MarkerClusterGroup from 'react-leaflet-cluster'
 
 
-function OpenStreetMap() {
+function Map() {
 
     const [logs, setLogs] = useState([]);
 
@@ -16,7 +16,7 @@ function OpenStreetMap() {
         const elements = [];
         for (let index = 0; index < data.length; index++) {
           
-          elements[index]= {lat:data[index].latitude, lng:data[index].longitude, title:data[index].id};
+          elements[index]= {lat:data[index].latitude, lng:data[index].longitude, title:"Accident ID: " + data[index].id};
           
         }
         setLogs(elements);
@@ -53,12 +53,12 @@ function OpenStreetMap() {
     return (
       <div className="text-center">
             <button 
-            className="btn btn-info mt-5 mb-5 text-center"
+            className="btn btn-info mt-3 mb-3 text-center"
             onClick={handleClick} >
                 {buttonText}
             </button>
         {isShown && (
-          <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} className="mb-5">
+          <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} className="mb-5 mt-5">
               <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -73,4 +73,4 @@ function OpenStreetMap() {
   );
 }
 
-export default OpenStreetMap;
+export default Map;

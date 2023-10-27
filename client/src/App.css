@@ -40,5 +40,8 @@
 .leaflet-container{
   height:500px;
 }
-
+.pagination-container {
+  max-height: 200px; /* Set a maximum height for the container */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+}
 
